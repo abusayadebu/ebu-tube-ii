@@ -1,3 +1,15 @@
+
+// time-getting function
+function getTimeString(time) {
+    //get Hour and rest seconds
+    const hour = parseInt(time / 3600);
+    let remainingSecond = time % 3600;
+    const minute = parseInt(remainingSecond / 60);
+    remainingSecond = remainingSecond % 60;
+    return `${hour} hr ${minute} min ${remainingSecond} sec ago`;
+}
+// --------
+
 // loadCategories
 // function
     const loadCategories = () => {
@@ -31,11 +43,16 @@
             const card = document.createElement("div")
             card.classList = "card bg-base-100 shadow-sm"
             card.innerHTML = 
-                    `<figure class="px-2 py-2">
+            `<figure class="px-2 py-2 relative">
             <img
             src= ${video.thumbnail}
-            alt="Shoes"
-            class="h-full w-full object-cover rounded-md" />
+            alt="thumbnail"
+            class="h-full w-full text-xs object-cover rounded-md" />
+            ${
+                video.others.posted_date?.length === 0 ? "" :
+                `<span class="absolute right-5 bottom-5 bg-black text-white px-2 rounded-sm">${getTimeString(video.others.posted_date)}</span>`
+            }
+            
         </figure class = "h-[200px]">
         <div class="px-0 py-2 flex gap-2">
             <div>
@@ -46,7 +63,9 @@
             <h2 class = "text-xl font-bold">${video.title}</h2>
             <div class = flex gap-2 justify-center items-center>
              <p class = "font-semibold">${video.authors[0].profile_name}</p>
-            <img class = "w-5" src ="https://img.icons8.com/?size=96&id=D9RtvkuOe31p&format=png" />
+            ${video.authors[0].verified === true ? 
+            `<img class = "w-5" src ="https://img.icons8.com/?size=96&id=D9RtvkuOe31p&format=png" />` : ""
+            }
             </div>
             <p>${video.others.views} views</p>
             </div>
@@ -57,7 +76,6 @@
         videoContainer.append(card);
         }
     }
-
 
 
 // displayCategories
