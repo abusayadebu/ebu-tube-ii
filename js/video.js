@@ -29,11 +29,22 @@ function getTimeString(time) {
         .catch((error) => console.log(error))
     }
 
+// load Category Videos
+        const loadCategoryVideos = (id) => {
+            // alert(id);
+            fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
+        .then((response) => response.json())
+        .then((data) => displayVideos(data.category))
+        .catch((error) => console.log(error))
+
+        }
+
 // displayVideos
     const displayVideos = (videos) => {
         console.log(videos)
         // // take the videos container from html
         const videoContainer = document.getElementById("videos");
+        videoContainer.innerHTML = "";
 
         // get every videos 
         for(let video of videos){
@@ -82,20 +93,23 @@ function getTimeString(time) {
 // function
     const displayCategories= (items) => {
         // take the button container from html
-        const buttonContainer = document.getElementById("categories")
+        const categoryContainer = document.getElementById("categories")
         
         // get every cartegory
         for(let item of items){
             console.log(item)
 
         // creat button for every category
-        const button = document.createElement("button")
-        button.classList = "btn";
-        button.innerText = item.category;
+        const buttonContainer = document.createElement("div")
+        buttonContainer.innerHTML = 
+        `<button onclick = "loadCategoryVideos(${item.category_id})" class = "btn">
+        ${item.category}
+        </button>
+        `
         // now going to html to show the button that i created
 
         // append category
-        buttonContainer.appendChild(button)
+        categoryContainer.append(buttonContainer)
 
      }
     }
